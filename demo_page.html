@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WebRTC Demo Page</title>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+	<script type="text/javascript">
+		var signalingSocket = null;
+
+		var SessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
+		var PeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+		var ICECandidate = window.RTCIceCandidate || window.mozRTCIceCandidate || window.webkitRTCIceCandidate;
+		navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+		var localStream = null;
+
+		function startVideoStream(){
+			if(navigator.getUserMedia){
+				navigator.getUserMedia({video:true},
+					function(stream){
+						$("#localVideo")[0].src = window.URL.createObjectURL(stream);
+						localStream = stream;
+					},
+					function(error){
+						alert("I blew up.  Shit.");
+					});
+			}
+		}
+
+		function createRTCVideoSessionClosures(socket){
+			var iceCandidateQueue = [];
+			var peerConnection = null;
+
+			var addIncomingCandidate = function(candidate){
+				if(iceCandidateQueue != null){
+					console.log("Queueing a candidate: " + candidate);
+					iceCandidateQueue.push(candidate);
+				} else if(peerConnection){
+					console.log("Forwarding a candidate directly: " + candidate);
+					peerConnection.addIceCandidate(candidate);
+				}
+			}
+
+			var forwardQueuedCandidates = function(){
+				console.log("Forwarding all queued candidates");
+				if(iceCandidateQueue && peerConnection){
+					iceCandidateQueue.forEach(function(candidate){
+						peerConnection.addIceCandidate(candidate);
+					});
+				}
+			}
+
+			var sendLocalCandidate = function (candidate){
+				if(candidate){
+					socket.emit("forwardRTCICECandidate", { "candidate": candidate });
+				}
+			}
+
+			var sendLocalOffer = function(offer){
+				console.log("Got a local offer: " + JSON.stringify(offer));
+				socket.emit('forwardRTCOffer', {sdp: offer});
+			}
+
+			var sendVideoOffer = function(iceServers){
+				peerConnection = new PeerConnection(iceServers);
+				peerConnection.addStream(localStream);
+
+				peerConnection.onicecandidate = function(evt){
+					sendLocalCandidate(evt.candidate);
+				}
+
+				peerConnection.createOffer(function(offer){
+					peerConnection.setLocalDescription(new SessionDescription(offer), 
+						function(){
+							console.log("Local session desc set");
+							sendLocalOffer(offer);
+						}, function(error){
+							alert("Setting local session desc blew up.  Error: " + error)
+						});
+				}, function(error){
+					alert("I blew up again.  Error: " + error);
+					console.log(error);
+				},
+				{offerToReceiveAudio: false, offerToReceiveVideo: false, DtlsSrtpKeyAgreement: true});
+			}
+
+			var receiveVideoAnswer = function(answer){
+				peerConnection.setRemoteDescription(answer,
+					function(){
+						forwardQueuedCandidates();
+						console.log("Set remoteDescription");
+					},
+					function(error){
+						alert("setting remote desc blew up.  Error: " + error);
+						console.log(error);
+					});
+			}
+
+			return [receiveVideoAnswer, addIncomingCandidate, sendVideoOffer];
+		}
+
+
+	// Registers to fire function onLoaded
+	function connectToRoom(){
+		startVideoStream();
+
+		signalingSocket = io.connect();
+		signalingSocket.emit('joinRoom', {roomId:$('#roomId').val()});
+
+		var requestId = 0;
+
+		signalingSocket.on('roomConnected', function(data){
+			var connectionCallbacks = createRTCVideoSessionClosures();
+			var onAnswer = connectionCallbacks[0];
+			var onCandidate = connectionCallbacks[1];
+			var sendOffer = connectionCallbacks[2];
+			var isInitiator = false;
+
+			startVideoStream();
+
+			signalingSocket.on('peerConnected', function(data){
+				// data.isInitiator
+				if(data.isInitiator){
+					isInitiator = true;
+					signalingSocket.emit('getICEServers');
+				}
+			});
+
+			signalingSocket.on('RTCSessionDescription', function(data){
+				// data.sdp
+				if(data.sdp){
+					var remoteSession = new RTCSessionDescription(data.sdp);
+					onAnswer(remoteSession);
+				}
+			});
+
+			signalingSocket.on('RTCICECandidate', function(data){
+				// data.candidate
+				if(data.candidate){
+					var remoteCandidate = new RTCICECandidate(data.candidate);
+					onCandidate(remoteCandidate);
+				}
+			});
+
+			signalingSocket.on('iceServerConfig', function(data){
+				// data.servers
+				if(data.servers){
+					sendOffer(data.servers);
+				} else {
+					alert("Gathering ICE Server config failed");
+				}
+			});
+		});
+	}
+
+
+</script>
+
+
+</head>
+<body>
+	<h1>Check out WebRTC</h1>
+
+	<input tye="text" id="roomId" placeholder="Room ID" />
+	<button onclick="connectToRoom();">Connect</button>
+	<br>
+
+	<video id="localVideo" autoplay></video>
+	<div id="remoteVideo"></div>
+
+
+</body>
+</html>
