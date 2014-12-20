@@ -39,6 +39,8 @@
 				} else if(peerConnection){
 					console.log("Forwarding a candidate directly: " + candidate);
 					peerConnection.addIceCandidate(candidate);
+				} else {
+					console.log("Failed to add an ICE Candidate");
 				}
 			}
 
@@ -48,6 +50,8 @@
 					iceCandidateQueue.forEach(function(candidate){
 						peerConnection.addIceCandidate(candidate);
 					});
+
+					iceCandidateQueue = null;
 				}
 			}
 
@@ -59,42 +63,77 @@
 
 			var sendLocalOffer = function(offer){
 				console.log("Got a local offer: " + JSON.stringify(offer));
-				socket.emit('forwardRTCOffer', {sdp: offer});
+				socket.emit('forwardRTCSDP', {sdp: offer});
 			}
 
-			var sendVideoOffer = function(iceServers){
+			var createPeerConnection = function(iceServers){
 				peerConnection = new PeerConnection(iceServers);
-				peerConnection.addStream(localStream);
+				if(localStream){
+					peerConnection.addStream(localStream);
+				}
 
 				peerConnection.onicecandidate = function(evt){
 					sendLocalCandidate(evt.candidate);
 				}
 
+				peerConnection.onaddstream = function(evt){
+					console.log("Got a remote video stream");
+					$('#remoteVideo')[0].src = URL.createObjectURL(evt.stream);
+				}
+			}
+
+			var sendVideoOffer = function(iceServers){
+				createPeerConnection(iceServers);
+
+				var gotSessionDesc = function(sdp){
+					peerConnection.setLocalDescription(sdp, function(){
+						sendLocalOffer(sdp);
+					}, function(error){
+						alert("Setting local sdp failed");
+						console.log(error);
+					});
+				}
+
 				peerConnection.createOffer(function(offer){
-					peerConnection.setLocalDescription(new SessionDescription(offer), 
-						function(){
-							console.log("Local session desc set");
-							sendLocalOffer(offer);
-						}, function(error){
-							alert("Setting local session desc blew up.  Error: " + error)
-						});
+					gotSessionDesc(offer);
 				}, function(error){
 					alert("I blew up again.  Error: " + error);
 					console.log(error);
 				},
-				{offerToReceiveAudio: false, offerToReceiveVideo: false, DtlsSrtpKeyAgreement: true});
+				{offerToReceiveAudio: true, offerToReceiveVideo: true, DtlsSrtpKeyAgreement: true});				
 			}
 
-			var receiveVideoAnswer = function(answer){
-				peerConnection.setRemoteDescription(answer,
-					function(){
-						forwardQueuedCandidates();
-						console.log("Set remoteDescription");
-					},
-					function(error){
-						alert("setting remote desc blew up.  Error: " + error);
-						console.log(error);
+			var receiveVideoAnswer = function(answer, isInitiator, iceServers){
+				console.log("Received RTC Offer/Answer from remote");
+				if(isInitiator){
+					peerConnection.setRemoteDescription(answer,
+						function(){
+							forwardQueuedCandidates();
+							console.log("Set remoteDescription");
+						},
+						function(error){
+							alert("setting remote desc blew up.  Error: " + error);
+							console.log(error);
+						});
+				} else {
+					createPeerConnection(iceServers);
+					peerConnection.setRemoteDescription(answer, function(localAnswer){
+						peerConnection.createAnswer(function(sdp){
+							peerConnection.setLocalDescription(sdp, function(){
+								console.log("Setting local description of non-initiator success");
+								sendLocalOffer(sdp);
+								forwardQueuedCandidates();
+							});
+						}, function(error){
+							console.log("Failed to create an answer from remote sdp");
+						});
+					}, function(error){
+						console.log("Failed to set remote SDP as non-initiator");
 					});
+					
+				}
+
+				
 			}
 
 			return [receiveVideoAnswer, addIncomingCandidate, sendVideoOffer];
@@ -103,58 +142,79 @@
 
 	// Registers to fire function onLoaded
 	function connectToRoom(){
-		startVideoStream();
+		var roomId = $('#roomId').val();
 
 		signalingSocket = io.connect();
-		signalingSocket.emit('joinRoom', {roomId:$('#roomId').val()});
+		signalingSocket.emit('joinRoom', {roomId:roomId});
 
 		var requestId = 0;
 
 		signalingSocket.on('roomConnected', function(data){
-			var connectionCallbacks = createRTCVideoSessionClosures();
+			console.log("Successfully joined roomId: " + roomId);
+
+			var connectionCallbacks = createRTCVideoSessionClosures(signalingSocket);
 			var onAnswer = connectionCallbacks[0];
 			var onCandidate = connectionCallbacks[1];
 			var sendOffer = connectionCallbacks[2];
 			var isInitiator = false;
 
-			startVideoStream();
+			var iceConfig = null;
+			var offerSdp = null;
+
+			var sendAnswerIfReady = function(){
+				if(iceConfig && offerSdp){
+					onAnswer(offerSdp, isInitiator, iceConfig);
+				}
+			}
 
 			signalingSocket.on('peerConnected', function(data){
 				// data.isInitiator
-				if(data.isInitiator){
-					isInitiator = true;
-					signalingSocket.emit('getICEServers');
-				}
+				console.log("Peer joined session, isInitiator: " + data.isInitiator);
+				isInitiator = data.isInitiator;
+				window.isInitiator = isInitiator;
+				console.log("isInitiator: " + isInitiator)
+
+				signalingSocket.emit('getICEServers');
 			});
 
 			signalingSocket.on('RTCSessionDescription', function(data){
 				// data.sdp
 				if(data.sdp){
-					var remoteSession = new RTCSessionDescription(data.sdp);
-					onAnswer(remoteSession);
+					offerSdp = new SessionDescription(data.sdp);
+					sendAnswerIfReady();
 				}
 			});
 
 			signalingSocket.on('RTCICECandidate', function(data){
 				// data.candidate
 				if(data.candidate){
-					var remoteCandidate = new RTCICECandidate(data.candidate);
+					var remoteCandidate = new ICECandidate(data.candidate);
 					onCandidate(remoteCandidate);
 				}
 			});
 
 			signalingSocket.on('iceServerConfig', function(data){
 				// data.servers
-				if(data.servers){
+				if(!data.servers){
+					console.log("Failed to obtain ICE configuration");
+					debugger;
+					return;
+				}
+
+				iceConfig = data.servers;
+
+				if(isInitiator){
 					sendOffer(data.servers);
 				} else {
-					alert("Gathering ICE Server config failed");
+					sendAnswerIfReady();
 				}
 			});
 		});
-	}
+}
 
-
+$(function(){
+	startVideoStream();
+});
 </script>
 
 
@@ -166,8 +226,8 @@
 	<button onclick="connectToRoom();">Connect</button>
 	<br>
 
-	<video id="localVideo" autoplay></video>
-	<div id="remoteVideo"></div>
+	<video id="localVideo" autoplay width="100" height="100"></video>
+	<video id="remoteVideo" autoplay></video>
 
 
 </body>
