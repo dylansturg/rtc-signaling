@@ -23,6 +23,13 @@
 		580EF71D1A464CF000744D78 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 580EF71C1A464CF000744D78 /* libstdc++.dylib */; };
 		580EF71E1A464CF900744D78 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 580EF70A1A464C9600744D78 /* libicucore.dylib */; };
 		580EF71F1A464D0000744D78 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 580EF7081A464C8E00744D78 /* CFNetwork.framework */; };
+		580EF7241A464EF800744D78 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580EF7231A464EF800744D78 /* MainPageViewController.swift */; };
+		580EF7401A46509500744D78 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580EF73F1A46509500744D78 /* WebSocket.swift */; };
+		580EF7441A46640400744D78 /* websocket.html in Resources */ = {isa = PBXBuildFile; fileRef = 580EF7431A46640400744D78 /* websocket.html */; };
+		580EF7461A46A84800744D78 /* WebSocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580EF7451A46A84800744D78 /* WebSocketDelegate.swift */; };
+		580EF7481A46A89B00744D78 /* SimpleWebRTCSocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580EF7471A46A89B00744D78 /* SimpleWebRTCSocketDelegate.swift */; };
+		580EF74A1A46AC5800744D78 /* SimpleWebRTCDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580EF7491A46AC5800744D78 /* SimpleWebRTCDelegate.swift */; };
+		580EF74D1A46B07100744D78 /* SimpleWebRTCStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580EF74C1A46B07100744D78 /* SimpleWebRTCStreamDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +63,40 @@
 		580EF7181A464CDF00744D78 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		580EF71A1A464CE800744D78 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		580EF71C1A464CF000744D78 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		580EF7231A464EF800744D78 /* MainPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
+		580EF7251A464FFB00744D78 /* RTCAudioSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCAudioSource.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCAudioSource.h; sourceTree = "<group>"; };
+		580EF7261A464FFB00744D78 /* RTCAudioTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCAudioTrack.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCAudioTrack.h; sourceTree = "<group>"; };
+		580EF7271A464FFB00744D78 /* RTCDataChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCDataChannel.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCDataChannel.h; sourceTree = "<group>"; };
+		580EF7281A464FFB00744D78 /* RTCEAGLVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCEAGLVideoView.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCEAGLVideoView.h; sourceTree = "<group>"; };
+		580EF7291A464FFB00744D78 /* RTCI420Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCI420Frame.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCI420Frame.h; sourceTree = "<group>"; };
+		580EF72A1A464FFB00744D78 /* RTCICECandidate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCICECandidate.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCICECandidate.h; sourceTree = "<group>"; };
+		580EF72B1A464FFB00744D78 /* RTCICEServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCICEServer.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCICEServer.h; sourceTree = "<group>"; };
+		580EF72C1A464FFB00744D78 /* RTCMediaConstraints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCMediaConstraints.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCMediaConstraints.h; sourceTree = "<group>"; };
+		580EF72D1A464FFB00744D78 /* RTCMediaSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCMediaSource.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCMediaSource.h; sourceTree = "<group>"; };
+		580EF72E1A464FFB00744D78 /* RTCMediaStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCMediaStream.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCMediaStream.h; sourceTree = "<group>"; };
+		580EF72F1A464FFB00744D78 /* RTCMediaStreamTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCMediaStreamTrack.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCMediaStreamTrack.h; sourceTree = "<group>"; };
+		580EF7301A464FFB00744D78 /* RTCNSGLVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCNSGLVideoView.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCNSGLVideoView.h; sourceTree = "<group>"; };
+		580EF7311A464FFB00744D78 /* RTCOpenGLVideoRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCOpenGLVideoRenderer.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCOpenGLVideoRenderer.h; sourceTree = "<group>"; };
+		580EF7321A464FFB00744D78 /* RTCPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCPair.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCPair.h; sourceTree = "<group>"; };
+		580EF7331A464FFB00744D78 /* RTCPeerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCPeerConnection.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCPeerConnection.h; sourceTree = "<group>"; };
+		580EF7341A464FFB00744D78 /* RTCPeerConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCPeerConnectionDelegate.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCPeerConnectionDelegate.h; sourceTree = "<group>"; };
+		580EF7351A464FFB00744D78 /* RTCPeerConnectionFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCPeerConnectionFactory.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCPeerConnectionFactory.h; sourceTree = "<group>"; };
+		580EF7361A464FFB00744D78 /* RTCSessionDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCSessionDescription.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCSessionDescription.h; sourceTree = "<group>"; };
+		580EF7371A464FFB00744D78 /* RTCSessionDescriptionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCSessionDescriptionDelegate.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCSessionDescriptionDelegate.h; sourceTree = "<group>"; };
+		580EF7381A464FFB00744D78 /* RTCStatsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCStatsDelegate.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCStatsDelegate.h; sourceTree = "<group>"; };
+		580EF7391A464FFB00744D78 /* RTCStatsReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCStatsReport.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCStatsReport.h; sourceTree = "<group>"; };
+		580EF73A1A464FFB00744D78 /* RTCTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCTypes.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCTypes.h; sourceTree = "<group>"; };
+		580EF73B1A464FFB00744D78 /* RTCVideoCapturer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCVideoCapturer.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCVideoCapturer.h; sourceTree = "<group>"; };
+		580EF73C1A464FFB00744D78 /* RTCVideoRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCVideoRenderer.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCVideoRenderer.h; sourceTree = "<group>"; };
+		580EF73D1A464FFB00744D78 /* RTCVideoSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCVideoSource.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCVideoSource.h; sourceTree = "<group>"; };
+		580EF73E1A464FFB00744D78 /* RTCVideoTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTCVideoTrack.h; path = SimpleWebRTCDemo/WebRTCHeaders/RTCVideoTrack.h; sourceTree = "<group>"; };
+		580EF73F1A46509500744D78 /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
+		580EF7431A46640400744D78 /* websocket.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = websocket.html; sourceTree = "<group>"; };
+		580EF7451A46A84800744D78 /* WebSocketDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocketDelegate.swift; sourceTree = "<group>"; };
+		580EF7471A46A89B00744D78 /* SimpleWebRTCSocketDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleWebRTCSocketDelegate.swift; sourceTree = "<group>"; };
+		580EF7491A46AC5800744D78 /* SimpleWebRTCDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleWebRTCDelegate.swift; sourceTree = "<group>"; };
+		580EF74B1A46ACEB00744D78 /* ObjCBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjCBridge.h; sourceTree = "<group>"; };
+		580EF74C1A46B07100744D78 /* SimpleWebRTCStreamDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleWebRTCStreamDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +131,7 @@
 		580EF6D61A464C4800744D78 = {
 			isa = PBXGroup;
 			children = (
+				580EF74C1A46B07100744D78 /* SimpleWebRTCStreamDelegate.swift */,
 				580EF7221A464D6200744D78 /* WebRTC */,
 				580EF6E11A464C4800744D78 /* SimpleWebRTCDemo */,
 				580EF6FB1A464C4800744D78 /* SimpleWebRTCDemoTests */,
@@ -110,11 +152,18 @@
 		580EF6E11A464C4800744D78 /* SimpleWebRTCDemo */ = {
 			isa = PBXGroup;
 			children = (
+				580EF7431A46640400744D78 /* websocket.html */,
 				580EF6E41A464C4800744D78 /* AppDelegate.swift */,
 				580EF6EC1A464C4800744D78 /* Main.storyboard */,
 				580EF6EF1A464C4800744D78 /* Images.xcassets */,
 				580EF6F11A464C4800744D78 /* LaunchScreen.xib */,
 				580EF6E21A464C4800744D78 /* Supporting Files */,
+				580EF7231A464EF800744D78 /* MainPageViewController.swift */,
+				580EF73F1A46509500744D78 /* WebSocket.swift */,
+				580EF7451A46A84800744D78 /* WebSocketDelegate.swift */,
+				580EF7471A46A89B00744D78 /* SimpleWebRTCSocketDelegate.swift */,
+				580EF7491A46AC5800744D78 /* SimpleWebRTCDelegate.swift */,
+				580EF74B1A46ACEB00744D78 /* ObjCBridge.h */,
 			);
 			path = SimpleWebRTCDemo;
 			sourceTree = "<group>";
@@ -165,6 +214,32 @@
 		580EF7221A464D6200744D78 /* WebRTC */ = {
 			isa = PBXGroup;
 			children = (
+				580EF7251A464FFB00744D78 /* RTCAudioSource.h */,
+				580EF7261A464FFB00744D78 /* RTCAudioTrack.h */,
+				580EF7271A464FFB00744D78 /* RTCDataChannel.h */,
+				580EF7281A464FFB00744D78 /* RTCEAGLVideoView.h */,
+				580EF7291A464FFB00744D78 /* RTCI420Frame.h */,
+				580EF72A1A464FFB00744D78 /* RTCICECandidate.h */,
+				580EF72B1A464FFB00744D78 /* RTCICEServer.h */,
+				580EF72C1A464FFB00744D78 /* RTCMediaConstraints.h */,
+				580EF72D1A464FFB00744D78 /* RTCMediaSource.h */,
+				580EF72E1A464FFB00744D78 /* RTCMediaStream.h */,
+				580EF72F1A464FFB00744D78 /* RTCMediaStreamTrack.h */,
+				580EF7301A464FFB00744D78 /* RTCNSGLVideoView.h */,
+				580EF7311A464FFB00744D78 /* RTCOpenGLVideoRenderer.h */,
+				580EF7321A464FFB00744D78 /* RTCPair.h */,
+				580EF7331A464FFB00744D78 /* RTCPeerConnection.h */,
+				580EF7341A464FFB00744D78 /* RTCPeerConnectionDelegate.h */,
+				580EF7351A464FFB00744D78 /* RTCPeerConnectionFactory.h */,
+				580EF7361A464FFB00744D78 /* RTCSessionDescription.h */,
+				580EF7371A464FFB00744D78 /* RTCSessionDescriptionDelegate.h */,
+				580EF7381A464FFB00744D78 /* RTCStatsDelegate.h */,
+				580EF7391A464FFB00744D78 /* RTCStatsReport.h */,
+				580EF73A1A464FFB00744D78 /* RTCTypes.h */,
+				580EF73B1A464FFB00744D78 /* RTCVideoCapturer.h */,
+				580EF73C1A464FFB00744D78 /* RTCVideoRenderer.h */,
+				580EF73D1A464FFB00744D78 /* RTCVideoSource.h */,
+				580EF73E1A464FFB00744D78 /* RTCVideoTrack.h */,
 			);
 			name = WebRTC;
 			sourceTree = "<group>";
@@ -249,6 +324,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				580EF7441A46640400744D78 /* websocket.html in Resources */,
 				580EF6EE1A464C4800744D78 /* Main.storyboard in Resources */,
 				580EF6F31A464C4800744D78 /* LaunchScreen.xib in Resources */,
 				580EF6F01A464C4800744D78 /* Images.xcassets in Resources */,
@@ -269,7 +345,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				580EF74D1A46B07100744D78 /* SimpleWebRTCStreamDelegate.swift in Sources */,
+				580EF7461A46A84800744D78 /* WebSocketDelegate.swift in Sources */,
+				580EF7241A464EF800744D78 /* MainPageViewController.swift in Sources */,
+				580EF7401A46509500744D78 /* WebSocket.swift in Sources */,
 				580EF6E51A464C4800744D78 /* AppDelegate.swift in Sources */,
+				580EF7481A46A89B00744D78 /* SimpleWebRTCSocketDelegate.swift in Sources */,
+				580EF74A1A46AC5800744D78 /* SimpleWebRTCDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +431,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = SimpleWebRTCDemo/ObjCBridge.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -385,6 +468,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = SimpleWebRTCDemo/ObjCBridge.h;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
