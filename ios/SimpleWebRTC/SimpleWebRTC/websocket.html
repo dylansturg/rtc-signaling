@@ -1,0 +1,59 @@
+<html>
+<head>
+	<title></title>
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script type="text/javascript">
+		var signalingSocket = null;
+
+		function connectToRoom(roomId){
+			signalingSocket = io.connect("http://192.168.1.99:3000/");
+			signalingSocket.emit('joinRoom', {roomId:roomId});
+
+			var messages = ['RTCSessionDescription', 'RTCICECandidate', 'iceServerConfig', 'peerConnected'];
+			messages.forEach(function(msg){
+				signalingSocket.on(msg, messageCallback(msg));
+			});
+		}
+
+		function emit(message, data){
+			if(signalingSocket){
+				signalingSocket.emit(message, data);
+			}
+		}
+
+		var messageQueue = [];
+		function popMessage(){
+			return messageQueue.shift();
+		}
+
+		function pushMessage(message){
+			messageQueue.push(JSON.stringify(message));
+		}
+
+		function messageCallback(type){
+			return function(data){
+				var swiftTarget = "webrtc://" + type;
+				if(typeof data !== 'undefined'){
+					swiftTarget += "#payload";
+					pushMessage(data);
+				}
+				forwardToSwift(swiftTarget);
+			}
+		}
+
+		function forwardToSwift(message){
+			var iframe = document.createElement("iframe");
+		    iframe.setAttribute("src", message);
+		    // For some reason we need to set a non-empty size for the iOS6
+		    // simulator...
+		    iframe.setAttribute("height", "1px");
+		    iframe.setAttribute("width", "1px");
+		    document.documentElement.appendChild(iframe);
+		    iframe.parentNode.removeChild(iframe);
+		}
+	</script>
+</head>
+<body>
+
+</body>
+</html>
