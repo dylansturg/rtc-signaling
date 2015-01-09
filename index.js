@@ -32,6 +32,9 @@ function removeClient(socket){
 		var index = clients[roomId].indexOf(socket);
 		if(index > -1){
 			clients[roomId].splice(index, 1);
+			if(clients[roomId].length <= 0){
+				delete clients[roomId];
+			}
 		}
 	}
 }
