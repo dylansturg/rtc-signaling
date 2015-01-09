@@ -45,6 +45,13 @@ io.on('connection', function(socket){
 		removeClient(socket);
 	});
 
+	socket.on('checkClients', function(){
+		for(var roomId in clients){
+			var roomClients = clients[roomId];
+			console.log("Room: " + roomId + " contains " + roomClients.length + " clients")
+		}
+	});
+
 	socket.on('joinRoom', function(data){
 		console.log("Client trying to join: " + data.roomId);
 		if(data.roomId){
