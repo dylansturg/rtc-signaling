@@ -9,80 +9,65 @@
 import Foundation
 import UIKit
 
-class WebSocket : UIWebView {
+class WebSocket : NSObject {
+    private let server = "http://137.112.154.199:3000"
+    private var signalingSocket : SIOSocket?
+    private var roomId : String!
+    private var delegate : WebSocketDelegate!
 
-    init(delegate : WebSocketDelegate){
+    init(delegate : WebSocketDelegate, room : String){
         super.init()
         
-        self.delegate = WebSocketWebViewDelegate(socketDelegate: delegate);
-        let filePath = NSBundle.mainBundle().pathForResource("WebSocket", ofType: "html")
-        let fileHtml : String = NSString(contentsOfFile: filePath!, encoding: NSUTF8StringEncoding, error: nil)!
+        self.delegate = delegate
+        roomId = room
         
-        loadHTMLString(fileHtml, baseURL: nil)
-    }
-
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        SIOSocket.socketWithHost(server, response: {
+            (socket : SIOSocket!) in
+                self.signalingSocket = socket
+                self.connect()
+        })
     }
     
     deinit{
         
     }
     
-    func connect(roomId : String){
-        stringByEvaluatingJavaScriptFromString("connect(\"\(roomId)\");");
-    }
-    
-    func emit(message : String, data : String?){
-        var dataString = data ?? "";
-        stringByEvaluatingJavaScriptFromString("emit(\"\(message)\", \"\(dataString)\");")
-    }
-}
-
-class WebSocketWebViewDelegate : NSObject, UIWebViewDelegate{
-    private var delegate : WebSocketDelegate!
-    
-    init(socketDelegate : WebSocketDelegate){
-        delegate = socketDelegate
-    }
-    
-    func webView(webView: UIWebView,
-        shouldStartLoadWithRequest request: NSURLRequest,
-        navigationType: UIWebViewNavigationType) -> Bool{
-            
-            if request.URL.scheme == "webrtc" {
-                if let del = self.delegate {
-                    var messageType = request.URL.host
-                    var hasPayload : Bool = request.URL.fragment == "payload"
-                    var parsedMessage : NSDictionary? = nil
-                    if hasPayload {
-                        let payload = webView.stringByEvaluatingJavaScriptFromString("popMessage();")
-                        let data = payload!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-                        parsedMessage = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary?
-                        if(parsedMessage == nil){
-                            parsedMessage = NSDictionary(object: payload!, forKey: "message")
-                        }
-                    }
-                    
-                    del.handleIncomingMessage(webView as WebSocket, messageType: messageType!, data: parsedMessage)
-                    
-                }
-                return false;
-            }
-            
-            return true;
-    }
-    
-    func webViewDidStartLoad(webView: UIWebView){
+    func connect(){
+        signalingSocket?.emit("joinRoom", args: [["roomId":self.roomId]])
         
-    }
-    
-    func webViewDidFinishLoad(webView: UIWebView) {
+        signalingSocket?.on("roomConnected", callback: {
+            (data : [AnyObject]!) in
+            println("Connected to room")
+            self.delegate.handleIncomingMessage(self, messageType: "roomConnected", data: data[0] as? NSDictionary)
+        })
         
+        signalingSocket?.on("peerConnected", callback: {
+            (data : [AnyObject]!) in
+            println("Peer joined room")
+            self.delegate.handleIncomingMessage(self, messageType: "peerConnected", data: data[0] as? NSDictionary)
+        })
+        
+        signalingSocket?.on("RTCSessionDescription", callback: {
+            (data : [AnyObject]!) in
+            println("Received remote SDP")
+            self.delegate.handleIncomingMessage(self, messageType: "RTCSessionDescription", data: data[0] as? NSDictionary)
+        })
+        
+        signalingSocket?.on("RTCICECandidate", callback: {
+            (data : [AnyObject]!) in
+            println("Received remote candidate")
+            self.delegate.handleIncomingMessage(self, messageType: "RTCICECandidate", data: data[0] as? NSDictionary)
+        })
+        
+        signalingSocket?.on("iceServerConfig", callback: {
+            (data : [AnyObject]!) in
+            println("Received config for ICE Servers")
+            self.delegate.handleIncomingMessage(self, messageType: "iceServerConfig", data: data[0] as? NSDictionary)
+        })
     }
     
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
-        println(error)
+    
+    func emit(message : String, data : NSDictionary?){        
+        signalingSocket?.emit(message, args: NSArray(object: data ?? NSDictionary()))
     }
-
 }

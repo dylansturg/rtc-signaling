@@ -23,4 +23,7 @@
 #import "RTCMediaConstraints.h"
 #import "RTCICEServer.h"
 #import "RTCTypes.h"
+
+#import "SRWebSocket.h"
+#import "SIOSocket.h"
 #endif

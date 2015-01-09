@@ -1,358 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="odQ-Ni-RO9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="IVY-kQ-OxU">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--RealBotics Login-->
-        <scene sceneID="KMh-qg-wmv">
+        <!--Main Page View Controller-->
+        <scene sceneID="pyO-DZ-B8W">
             <objects>
-                <viewController title="RealBotics Login" id="kp6-zE-DhP" customClass="LoginPageViewController" customModule="realboticsapp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="IVY-kQ-OxU" customClass="MainPageViewController" customModule="simplewebrtc" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="MW7-GD-NNS"/>
-                        <viewControllerLayoutGuide type="bottom" id="CvW-HS-CNE"/>
+                        <viewControllerLayoutGuide type="top" id="3Kx-yz-YI2"/>
+                        <viewControllerLayoutGuide type="bottom" id="h80-07-Aco"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="SEw-hl-4Ir">
-                        <rect key="frame" x="0.0" y="64" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Sd-MN-Q6G">
-                                <rect key="frame" x="107" y="579" width="159" height="30"/>
-                                <state key="normal" title="Forgot your password?">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="onForgotPasswordTap:" destination="kp6-zE-DhP" eventType="touchUpInside" id="MDv-KI-x0O"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M2e-2a-6bs">
-                                <rect key="frame" x="138" y="526" width="100" height="34"/>
-                                <color key="backgroundColor" red="0.0" green="0.23137254900000001" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Sign Up">
-                                    <color key="titleColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <state key="selected" title="Sign Up"/>
-                                <state key="highlighted" title="Sign Up">
-                                    <color key="titleColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="signupButtonTapped:" destination="kp6-zE-DhP" eventType="touchUpInside" id="KR9-Ax-UGQ"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J1m-gh-5i8">
-                                <rect key="frame" x="87" y="164" width="200" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="LBd-Hu-Mm7"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="wp5-E4-Llo"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="wp5-E4-Llo"/>
-                                    </mask>
-                                </variation>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Chy-Tr-tZx">
-                                <rect key="frame" x="106" y="617" width="160" height="30"/>
-                                <state key="normal" title="Forgot your username?">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="onForgotUsernameTap:" destination="kp6-zE-DhP" eventType="touchUpInside" id="VI8-om-2rL"/>
-                                </connections>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RB-Logo_Main.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="hMx-Yt-qMw">
-                                <rect key="frame" x="16" y="8" width="343" height="128"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="kZC-An-IIy"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K3S-1U-Vi9">
-                                <rect key="frame" x="138" y="471" width="100" height="34"/>
-                                <color key="backgroundColor" red="0.0" green="0.23137254900000001" blue="0.34509803919999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="Lim-XI-JgM"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Login">
-                                    <color key="titleColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <state key="disabled" title="Login"/>
-                                <state key="selected" title="Login"/>
-                                <state key="highlighted" title="Login"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="onLoginTouch:" destination="kp6-zE-DhP" eventType="touchUpInside" id="6kg-cF-3nb"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p3u-S5-Vx6">
-                                <rect key="frame" x="87" y="225" width="200" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="G6W-qi-P0W"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
-                            </textField>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="J1m-gh-5i8" firstAttribute="leading" secondItem="SEw-hl-4Ir" secondAttribute="leadingMargin" constant="71" id="3cR-mI-wb1"/>
-                            <constraint firstItem="M2e-2a-6bs" firstAttribute="top" secondItem="K3S-1U-Vi9" secondAttribute="bottom" constant="21" id="47V-uL-Hqe"/>
-                            <constraint firstItem="7Sd-MN-Q6G" firstAttribute="trailing" secondItem="Chy-Tr-tZx" secondAttribute="trailing" id="BYe-yS-6uU"/>
-                            <constraint firstAttribute="centerX" secondItem="7Sd-MN-Q6G" secondAttribute="centerX" constant="1" id="CGF-VV-s6j"/>
-                            <constraint firstItem="hMx-Yt-qMw" firstAttribute="top" secondItem="SEw-hl-4Ir" secondAttribute="topMargin" constant="8" id="EQd-VT-2pW"/>
-                            <constraint firstItem="Chy-Tr-tZx" firstAttribute="top" secondItem="7Sd-MN-Q6G" secondAttribute="bottom" constant="8" symbolic="YES" id="FrU-Gt-Fdg"/>
-                            <constraint firstItem="7Sd-MN-Q6G" firstAttribute="top" secondItem="M2e-2a-6bs" secondAttribute="bottom" constant="19" id="IUt-30-ufd"/>
-                            <constraint firstAttribute="centerX" secondItem="K3S-1U-Vi9" secondAttribute="centerX" constant="-0.5" id="MSp-rH-sb3"/>
-                            <constraint firstItem="J1m-gh-5i8" firstAttribute="trailing" secondItem="p3u-S5-Vx6" secondAttribute="trailing" id="RY6-N9-PTX"/>
-                            <constraint firstItem="p3u-S5-Vx6" firstAttribute="top" secondItem="J1m-gh-5i8" secondAttribute="bottom" constant="21" id="Vqr-tw-BC0"/>
-                            <constraint firstItem="J1m-gh-5i8" firstAttribute="centerX" secondItem="hMx-Yt-qMw" secondAttribute="centerX" id="W9g-Ev-GAf"/>
-                            <constraint firstItem="K3S-1U-Vi9" firstAttribute="trailing" secondItem="M2e-2a-6bs" secondAttribute="trailing" id="Wzq-Jf-FAt"/>
-                            <constraint firstItem="J1m-gh-5i8" firstAttribute="top" secondItem="hMx-Yt-qMw" secondAttribute="bottom" constant="28" id="b9K-oS-YCb"/>
-                            <constraint firstAttribute="centerX" secondItem="Chy-Tr-tZx" secondAttribute="centerX" constant="1.5" id="dh7-zU-3gU"/>
-                            <constraint firstAttribute="centerX" secondItem="M2e-2a-6bs" secondAttribute="centerX" constant="-0.5" id="jaz-34-Jd9"/>
-                            <constraint firstItem="hMx-Yt-qMw" firstAttribute="trailing" secondItem="SEw-hl-4Ir" secondAttribute="trailingMargin" id="jyY-AP-RXB"/>
-                            <constraint firstItem="K3S-1U-Vi9" firstAttribute="leading" secondItem="M2e-2a-6bs" secondAttribute="leading" id="o2h-kd-CuR"/>
-                            <constraint firstItem="hMx-Yt-qMw" firstAttribute="leading" secondItem="SEw-hl-4Ir" secondAttribute="leadingMargin" id="rGs-io-Yev"/>
-                            <constraint firstItem="p3u-S5-Vx6" firstAttribute="leading" secondItem="J1m-gh-5i8" secondAttribute="leading" id="rq3-af-eWP"/>
-                            <constraint firstItem="CvW-HS-CNE" firstAttribute="top" secondItem="Chy-Tr-tZx" secondAttribute="bottom" constant="20" id="wVQ-qg-UCb"/>
-                        </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="e6V-o2-pNm" appends="YES" id="mOp-D5-sbx"/>
-                        </connections>
-                    </view>
-                    <navigationItem key="navigationItem" id="thu-wz-Y8o"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <connections>
-                        <outlet property="loginButton" destination="K3S-1U-Vi9" id="fi9-aN-Gng"/>
-                        <outlet property="passwordField" destination="p3u-S5-Vx6" id="MPu-6F-QZh"/>
-                        <outlet property="usernameField" destination="J1m-gh-5i8" id="m8R-5n-LGp"/>
-                        <segue destination="eM0-5v-0gW" kind="show" identifier="Login" id="1Cw-uc-WqZ"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fYY-ND-LBU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="e6V-o2-pNm">
-                    <connections>
-                        <action selector="viewTapped:" destination="kp6-zE-DhP" id="Tjq-oH-nN7"/>
-                    </connections>
-                </tapGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="4021.5" y="-249.5"/>
-        </scene>
-        <!--RealBotics Devices-->
-        <scene sceneID="pd4-Zl-9py">
-            <objects>
-                <viewController id="eM0-5v-0gW" customClass="DeviceListViewController" customModule="realboticsapp" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="8md-6S-CTI"/>
-                        <viewControllerLayoutGuide type="bottom" id="Spq-17-vNe"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ve2-jr-exh">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <searchBar contentMode="redraw" text="" placeholder="Device Name" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9G1-bZ-0Ee">
-                                <rect key="frame" x="8" y="0.0" width="359" height="44"/>
-                                <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="search"/>
-                            </searchBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gRP-CM-2v6">
-                                <rect key="frame" x="106" y="565" width="162" height="30"/>
-                                <state key="normal" title="Bitchin' WebRTC Demo">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="demoClick:" destination="eM0-5v-0gW" eventType="touchUpInside" id="NZC-w6-6vg"/>
-                                </connections>
-                            </button>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CbP-tu-Idq">
-                                <rect key="frame" x="0.0" y="44" width="375" height="559"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="3" minimumInteritemSpacing="5" id="JmU-Za-fJA">
-                                    <size key="itemSize" width="100" height="100"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Prototype" id="sei-5J-Ksj">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="fIa-eQ-RiB">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Rrz-TT-Ijq">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="BBh-M1-vSG">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="VOo-kg-Ryu">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="vH8-dL-2e1" customClass="DeviceListCell" customModule="realboticsapp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="OZ8-GE-h0r">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="OBZ-98-JE0">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="LkC-nC-x6r">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="7Nz-IO-iiQ">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="CbP-tu-Idq" secondAttribute="trailing" constant="-16" id="5EZ-xs-TnG"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="9G1-bZ-0Ee" secondAttribute="trailing" constant="-8" id="5el-Hg-rgn"/>
-                            <constraint firstItem="Spq-17-vNe" firstAttribute="top" secondItem="CbP-tu-Idq" secondAttribute="bottom" id="CQG-6a-0ub"/>
-                            <constraint firstItem="CbP-tu-Idq" firstAttribute="top" secondItem="9G1-bZ-0Ee" secondAttribute="bottom" id="glk-r3-4gp"/>
-                            <constraint firstItem="CbP-tu-Idq" firstAttribute="leading" secondItem="ve2-jr-exh" secondAttribute="leadingMargin" constant="-16" id="jxD-Ux-8UW"/>
-                            <constraint firstItem="9G1-bZ-0Ee" firstAttribute="top" secondItem="8md-6S-CTI" secondAttribute="bottom" id="mrE-7A-YEY"/>
-                            <constraint firstItem="9G1-bZ-0Ee" firstAttribute="leading" secondItem="ve2-jr-exh" secondAttribute="leadingMargin" constant="-8" id="psd-KT-Kl9"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="RealBotics Devices" id="3qb-Xw-4y5">
-                        <barButtonItem key="leftBarButtonItem" title="Log out" id="2gM-Hp-Ec7">
-                            <connections>
-                                <action selector="onLogoutTapped:" destination="eM0-5v-0gW" id="R6V-9s-luC"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <connections>
-                        <outlet property="collectionView" destination="CbP-tu-Idq" id="w6I-XP-0T5"/>
-                        <outlet property="searchBar" destination="9G1-bZ-0Ee" id="RoE-p1-rb5"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EOf-QL-i6d" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3286.5" y="-249.5"/>
-        </scene>
-        <!--Initial View Controller-->
-        <scene sceneID="Zce-gT-j7D">
-            <objects>
-                <viewController id="odQ-Ni-RO9" customClass="InitialViewController" customModule="realboticsapp" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ZyE-m2-eBG"/>
-                        <viewControllerLayoutGuide type="bottom" id="RIj-Lm-WaN"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="B3X-l5-T4f">
+                    <view key="view" contentMode="scaleToFill" id="VQD-po-K2M">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eLp-VI-eI5">
+                                <rect key="frame" x="28" y="235" width="545" height="345"/>
+                                <color key="backgroundColor" red="0.25490196079999999" green="0.25098039220000001" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="agT-If-8e8">
+                                <rect key="frame" x="219" y="94" width="97" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="q1O-bL-KMI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ost-1u-2lz">
+                                <rect key="frame" x="335" y="94" width="59" height="30"/>
+                                <state key="normal" title="Connect">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="connectTapped:" destination="IVY-kQ-OxU" eventType="touchUpInside" id="goz-ok-xvH"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Ost-1u-2lz" firstAttribute="leading" secondItem="agT-If-8e8" secondAttribute="trailing" constant="19" id="2ll-aC-8c5"/>
+                            <constraint firstAttribute="centerX" secondItem="agT-If-8e8" secondAttribute="centerX" constant="32.5" id="5lO-Id-RVk"/>
+                            <constraint firstItem="agT-If-8e8" firstAttribute="top" secondItem="Ost-1u-2lz" secondAttribute="top" id="FB8-yX-6FR"/>
+                            <constraint firstItem="agT-If-8e8" firstAttribute="top" secondItem="3Kx-yz-YI2" secondAttribute="bottom" constant="74" id="YDy-Hv-gV1"/>
+                            <constraint firstItem="eLp-VI-eI5" firstAttribute="top" secondItem="VQD-po-K2M" secondAttribute="top" constant="235" id="cq3-rc-Jmp"/>
+                            <constraint firstItem="eLp-VI-eI5" firstAttribute="leading" secondItem="VQD-po-K2M" secondAttribute="leadingMargin" constant="12" id="itL-a0-Tge"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eLp-VI-eI5" secondAttribute="trailing" constant="11" id="kqp-8w-JIF"/>
+                            <constraint firstItem="h80-07-Aco" firstAttribute="top" secondItem="eLp-VI-eI5" secondAttribute="bottom" constant="20" id="yYr-mr-QX2"/>
+                        </constraints>
                     </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FLG-fX-LDz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2901" y="-1087"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="qCI-hX-uFU">
-            <objects>
-                <navigationController storyboardIdentifier="BaseNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="CPJ-kr-bdg" customClass="NavigationController" customModule="realboticsapp" customModuleProvider="target" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bk6-hR-Jac">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="RAS-R4-Q5V">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </toolbar>
                     <connections>
-                        <segue destination="kp6-zE-DhP" kind="relationship" relationship="rootViewController" id="gke-rM-tk1"/>
+                        <outlet property="roomIdField" destination="agT-If-8e8" id="Emi-To-0nJ"/>
+                        <outlet property="videoContainer" destination="eLp-VI-eI5" id="BIw-z7-bxl"/>
                     </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Jlp-Ps-m8f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8fD-AN-GnO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3601" y="-1053"/>
+            <point key="canvasLocation" x="-20" y="-200"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="RB-Logo_Main.jpg" width="1815" height="354"/>
-    </resources>
 </document>

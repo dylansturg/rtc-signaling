@@ -8,6 +8,7 @@
 
 import Foundation
 
-protocol WebSocketDelegate{
+protocol WebSocketDelegate {
     func handleIncomingMessage(socket : WebSocket, messageType : String, data : NSDictionary?)
+    
 }

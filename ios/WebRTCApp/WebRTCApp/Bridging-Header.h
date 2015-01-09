@@ -9,5 +9,7 @@
 #ifndef WebRTCApp_Bridging_Header_h
 #define WebRTCApp_Bridging_Header_h
 
+#import "RTCPeerConnectionFactory.h"
+
 
 #endif

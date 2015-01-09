@@ -9,47 +9,43 @@
 import Foundation
 
 class SimpleWebRTCDelegate : NSObject, RTCPeerConnectionDelegate, RTCSessionDescriptionDelegate{
-    private var constraints = RTCMediaConstraints(mandatoryConstraints: [RTCPair(key: "DtlsSrtpKeyAgreement", value: "true"), RTCPair(key: "offerToReceiveVideo", value: "true"), RTCPair(key: "offerToReceiveAudio", value: "true")], optionalConstraints: [])
+    private var constraints = RTCMediaConstraints(mandatoryConstraints: [RTCPair(key: "offerToReceiveAudio", value: "true"), RTCPair(key: "offerToReceiveVideo", value: "true")], optionalConstraints: [RTCPair(key: "DtlsSrtpKeyAgreement", value: "true")])
     
     private var isInitiator : Bool = false
     private var hasSentAnswer : Bool = false
     private var candidateQueue : [RTCICECandidate]? = []
-    private var socket : WebSocket
     private var streamDelegate : SimpleWebRTCStreamDelegate
     private var peerConnection : RTCPeerConnection?
     
     private var serverConfig : [RTCICEServer]?
     private var remoteSDP : RTCSessionDescription?
     
+    private var signalingSocket : WebSocket?
+    
     private struct Factory {
-        //static var peerConnectionFactory = RTCPeerConnectionFactory()
+        static var peerConnectionFactory = RTCPeerConnectionFactory()
     }
     
     
-    init(rtcSocket : WebSocket, delegate : SimpleWebRTCStreamDelegate){
-        socket = rtcSocket
+    init(delegate : SimpleWebRTCStreamDelegate){
         streamDelegate = delegate
     }
     
-    func joinRoom(roomId : String){
-        socket.emit("joinRoom", data: "{\"roomId\":\"\(roomId)\"}")
-    }
-    
-    func roomConnected(data : NSDictionary?){
+    func roomConnected(data : NSDictionary?, socket : WebSocket){
         println("Successfully joined room")
     }
     
-    func peerConnected(isInitiator : Bool){
+    func peerConnected(isInitiator : Bool, socket : WebSocket){
         self.isInitiator = isInitiator
         socket.emit("getICEServers", data: nil)
     }
     
-    func handleIncomingRemoteSDP(sdp : RTCSessionDescription){
+    func handleIncomingRemoteSDP(sdp : RTCSessionDescription, socket : WebSocket){
         remoteSDP = sdp
         sendAnswerIfReady()
     }
     
-    func handleIncomingRemoteCandidate(candidate : RTCICECandidate){
+    func handleIncomingRemoteCandidate(candidate : RTCICECandidate, socket : WebSocket){
         if candidateQueue == nil{
             peerConnection?.addICECandidate(candidate)
         } else {
@@ -57,7 +53,8 @@ class SimpleWebRTCDelegate : NSObject, RTCPeerConnectionDelegate, RTCSessionDesc
         }
     }
     
-    func receivedICEServerConfig(servers : [RTCICEServer]){
+    func receivedICEServerConfig(servers : [RTCICEServer], socket : WebSocket){
+        signalingSocket = socket
         serverConfig = servers
         if isInitiator{
             createAndSendVideoOffer(servers)
@@ -95,20 +92,16 @@ class SimpleWebRTCDelegate : NSObject, RTCPeerConnectionDelegate, RTCSessionDesc
         }
     }
     
-    private func sendLocalCandidate(candidate : RTCICECandidate){
+    private func sendLocalCandidate(candidate : RTCICECandidate, socket : WebSocket){
         var candidateData = NSMutableDictionary()
         candidateData["candidate"] = candidate.sdp
         candidateData["sdpMid"] = candidate.sdpMid
         candidateData["sdpMLineIndex"] = candidate.sdpMLineIndex
         
-        var serializedCandidate = NSJSONSerialization.dataWithJSONObject(candidateData, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
-        var candidateString = NSString(data: serializedCandidate!, encoding: NSUTF8StringEncoding)
-        
-        
-        socket.emit("forwardRTCICECandidate", data: "\"candidate\":\"\(candidateString)\"")
+        socket.emit("forwardRTCICECandidate", data: ["candidate": candidateData])
     }
     
-    private func  sendLocalSessionDescription(sdp : RTCSessionDescription){
+    private func  sendLocalSessionDescription(sdp : RTCSessionDescription, socket : WebSocket){
         var offerData = NSMutableDictionary()
         offerData["sdp"] = sdp.description
         offerData["type"] = sdp.type
@@ -116,20 +109,22 @@ class SimpleWebRTCDelegate : NSObject, RTCPeerConnectionDelegate, RTCSessionDesc
         var serializedOffer = NSJSONSerialization.dataWithJSONObject(offerData, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         var offerString = NSString(data: serializedOffer!, encoding: NSUTF8StringEncoding)
         
-        socket.emit("forwardRTCSDP", data: "\"sdp\":\"\(offerString)\"")
+        socket.emit("forwardRTCSDP", data: ["sdp": offerData])
     }
     
     private func createLocalPeerConnection(iceServerConfig : [RTCICEServer]){
-        //peerConnection = Factory.peerConnectionFactory.peerConnectionWithICEServers(iceServerConfig, constraints: constraints, delegate: self)
+        peerConnection = Factory.peerConnectionFactory.peerConnectionWithICEServers(iceServerConfig, constraints: constraints, delegate: self)
     }
     
     
     // --- RTCSessionDescriptionDelegate ----
     func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
-        sendLocalSessionDescription(sdp)
-        peerConnection.setLocalDescriptionWithDelegate(isInitiator ? nil : self, sessionDescription: sdp)
-        if sdp.type == "answer"{
-            hasSentAnswer = true
+        if signalingSocket != nil {
+            sendLocalSessionDescription(sdp, socket: signalingSocket!)
+            peerConnection.setLocalDescriptionWithDelegate(isInitiator ? nil : self, sessionDescription: sdp)
+            if sdp.type == "answer"{
+                hasSentAnswer = true
+            }
         }
     }
     
@@ -137,7 +132,7 @@ class SimpleWebRTCDelegate : NSObject, RTCPeerConnectionDelegate, RTCSessionDesc
         if isInitiator{
             forwardCandidateQueue()
         } else if !hasSentAnswer{
-            //peerConnection.createAnswerWithDelegate(self, constraints: self.constraints)
+            peerConnection.createAnswerWithDelegate(self, constraints: RTCMediaConstraints())
         } else {
             forwardCandidateQueue()
         }
@@ -159,11 +154,9 @@ class SimpleWebRTCDelegate : NSObject, RTCPeerConnectionDelegate, RTCSessionDesc
     
     func peerConnection(peerConnection : RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!){
         println("got an ICE cadidate to forward")
-        var desc = candidate.description
-        var candidateDict = NSDictionary(objects: [candidate.description, candidate.sdpMid, candidate.sdpMLineIndex], forKeys: ["candidate", "sdpMid", "sdpMLineIndex"])
-        var candidateData = NSJSONSerialization.dataWithJSONObject(candidateDict, options: nil, error: nil) as NSData?
-        var candidateJson = NSString(data: candidateData!, encoding: NSUTF8StringEncoding)
-        
+        if signalingSocket != nil {
+            sendLocalCandidate(candidate, socket: signalingSocket!)
+        }
 
     }
     
