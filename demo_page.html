@@ -6,6 +6,8 @@
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 
 	<script type="text/javascript">
+		var requireRelay = false;
+
 		var signalingSocket = null;
 
 		var SessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
@@ -56,13 +58,24 @@
 			}
 
 			var sendLocalCandidate = function (candidate){
-				if(candidate){
-					socket.emit("forwardRTCICECandidate", { "candidate": candidate });
+				if(candidate == null){
+					return;
 				}
+
+				if(requireRelay){
+					if(candidate.candidate.indexOf('typ relay') < 0){
+						return;
+					}
+				}
+
+				console.log(candidate);
+				socket.emit("forwardRTCICECandidate", { "candidate": candidate });
+			
 			}
 
 			var sendLocalOffer = function(offer){
 				console.log("Got a local offer: " + JSON.stringify(offer));
+				console.log(offer);
 				socket.emit('forwardRTCSDP', {sdp: offer});
 			}
 
