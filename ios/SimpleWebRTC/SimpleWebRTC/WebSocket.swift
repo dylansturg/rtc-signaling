@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class WebSocket : NSObject {
-    private let server = "http://137.112.154.199:3000"
+    private let server = "http://realbotics.csse.rose-hulman.edu:3000"
     private var signalingSocket : SIOSocket?
     private var roomId : String!
     private var delegate : WebSocketDelegate!

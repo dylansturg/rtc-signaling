@@ -1,12 +1,12 @@
 <html>
 <head>
 	<title></title>
-	<script src="http://192.168.1.99:3000/socket.io/socket.io.js"></script>
+	<script src="http://realbotics.csse.rose-hulman.edu:3000/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
 		var signalingSocket = null;
 
 		function connectToRoom(roomId){
-			signalingSocket = io.connect("http://192.168.1.99:3000/");
+			signalingSocket = io.connect("http://realbotics.csse.rose-hulman.edu:3000/");
 			signalingSocket.emit('joinRoom', {roomId:roomId});
 
 			var messages = ['RTCSessionDescription', 'RTCICECandidate', 'iceServerConfig', 'peerConnected'];
