@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 
 class WebSocket : NSObject {
-    private let server = "http://realbotics.csse.rose-hulman.edu:3000"
+    private let server = "http://54.69.9.205:3000/"
     private var signalingSocket : SIOSocket?
+    private var incomingSocket : SIOSocket?
     private var roomId : String!
     private var delegate : WebSocketDelegate!
 
@@ -21,9 +22,15 @@ class WebSocket : NSObject {
         self.delegate = delegate
         roomId = room
         
-        SIOSocket.socketWithHost(server, response: {
+        SIOSocket.socketWithHost("\(server)user_com", response: {
             (socket : SIOSocket!) in
                 self.signalingSocket = socket
+                self.connect()
+        })
+        
+        SIOSocket.socketWithHost("\(server)device_com", response: {
+            (socket : SIOSocket!) in
+                self.incomingSocket = socket
                 self.connect()
         })
     }
@@ -33,33 +40,31 @@ class WebSocket : NSObject {
     }
     
     func connect(){
-        signalingSocket?.emit("joinRoom", args: [["roomId":self.roomId]])
+        if(signalingSocket == nil || incomingSocket == nil){
+            return;
+        }
         
-        signalingSocket?.on("roomConnected", callback: {
+        signalingSocket?.emit("join_room", args: [["deviceID":self.roomId, "type":1]])
+        signalingSocket?.emit("refresh")
+        
+        signalingSocket?.on("not_inline", callback: {
             (data : [AnyObject]!) in
-            println("Connected to room")
-            self.delegate.handleIncomingMessage(self, messageType: "roomConnected", data: data[0] as? NSDictionary)
+            //self.signalingSocket?.emit("getinline")
         })
         
-        signalingSocket?.on("peerConnected", callback: {
-            (data : [AnyObject]!) in
-            println("Peer joined room")
-            self.delegate.handleIncomingMessage(self, messageType: "peerConnected", data: data[0] as? NSDictionary)
-        })
-        
-        signalingSocket?.on("RTCSessionDescription", callback: {
+        incomingSocket?.on("receiveVideoOffer", callback: {
             (data : [AnyObject]!) in
             println("Received remote SDP")
             self.delegate.handleIncomingMessage(self, messageType: "RTCSessionDescription", data: data[0] as? NSDictionary)
         })
         
-        signalingSocket?.on("RTCICECandidate", callback: {
+        incomingSocket?.on("receiveICECandidate", callback: {
             (data : [AnyObject]!) in
             println("Received remote candidate")
             self.delegate.handleIncomingMessage(self, messageType: "RTCICECandidate", data: data[0] as? NSDictionary)
         })
         
-        signalingSocket?.on("iceServerConfig", callback: {
+        signalingSocket?.on("ICEConfig", callback: {
             (data : [AnyObject]!) in
             println("Received config for ICE Servers")
             self.delegate.handleIncomingMessage(self, messageType: "iceServerConfig", data: data[0] as? NSDictionary)

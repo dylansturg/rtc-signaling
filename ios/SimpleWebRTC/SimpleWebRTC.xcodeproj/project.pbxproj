@@ -273,7 +273,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5890EC8419D1B940002D6AC0 /* Build configuration list for PBXProject "SimpleWebRTC" */;
+			buildConfigurationList = 5890EC8419D1B940002D6AC0 /* Build configuration list for PBXProject "simplewebrtc" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -516,7 +516,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5890EC8419D1B940002D6AC0 /* Build configuration list for PBXProject "SimpleWebRTC" */ = {
+		5890EC8419D1B940002D6AC0 /* Build configuration list for PBXProject "simplewebrtc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5890ECAA19D1B940002D6AC0 /* Debug */,
