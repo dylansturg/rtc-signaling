@@ -109,8 +109,8 @@ class SimpleWebRTCDelegate : NSObject, RTCPeerConnectionDelegate, RTCSessionDesc
         var serializedOffer = NSJSONSerialization.dataWithJSONObject(offerData, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         var offerString = NSString(data: serializedOffer!, encoding: NSUTF8StringEncoding)
         
-        socket.emit("checkClients", data: nil)
-        socket.emit("forwardRTCSDP", data: ["sdp": offerData])
+        self.signalingSocket?.emit("checkClients", data: nil)
+        self.signalingSocket?.emit("forwardRTCSDP", data: ["sdp": offerData])
     }
     
     private func createLocalPeerConnection(iceServerConfig : [RTCICEServer]){
